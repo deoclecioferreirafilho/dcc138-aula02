@@ -18,12 +18,41 @@ var alt = canvas.height = 300;
 var dt = 0;
 var anterior = 0;
 var pcw = 30;
+var pcvx = 50;
+var pcx = 100;
 
 var ctx = canvas.getContext("2d");
+
+function TeclaSolta(e){
+
+    if(e.keyCode == 37)
+        pcvx = 0;
+    
+    if(e.keyCode == 39)
+        pcvx = 0;
+    
+}
+
+function TeclaPressionada(e){
+    console.log(e.keyCode)
+    if(e.keyCode == 37)
+        pcvx = -80;
+    
+    if(e.keyCode == 39)
+        pcvx = 80;
+    
+}
 
 function desenhachao(){
 ctx.fillStyle = "tan";
 ctx.fillRect(0,0,lg,alt );
+}
+
+function desenhaPortais(){
+ctx.fillStyle = "blue";
+ctx.fillRect(395,95,5,40 );
+ctx.fillStyle = "red";
+ctx.fillRect(0,95,5,40 );
 }
 
 function desenhaPC(x,y){
@@ -33,21 +62,32 @@ ctx.fillRect(x, y, pcw, pcw);
 ctx.strokeStyle = "black";
 ctx.strokeRect (x,y, pcw, pcw);
 }
-var pcx = 10;
+
 function passo(t){
     dt = (t - anterior)/1000;
     desenhachao();
     ctx.fillStyle = "black";
     ctx.fillText(t, 10, 10);
     ctx.fillText(dt, 10, 20);
-    pcx=pcx + 10*dt;
+    pcx=pcx + pcvx*dt;
     desenhaPC(pcx,100);
+    desenhaPortais();
     anterior = t;
-   if(pcx < lg - pcw)
+   //if(pcx >= lg - pcw || pcx <= 0)
+   //     pcvx = -pcvx;
+
+   if(pcx >= lg){
+       pcx = 0 - pcw;
+   }else if(pcx <= 0-pcw){
+       pcx = lg
+   }
     requestAnimationFrame(passo);
 }
 
 // Programa Principal
+
+addEventListener("keydown", TeclaPressionada);
+addEventListener("keyup", TeclaSolta);
 requestAnimationFrame(passo);
 
 </script>
