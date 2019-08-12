@@ -8,5 +8,47 @@
 </head>
 <body>
     <h1>Semana 2 Exm1</h1>
+    <canvas></canvas>
 </body>
+
+<script>
+var canvas = document.querySelector("canvas");
+var lg = canvas.width = 400;
+var alt = canvas.height = 300;
+var dt = 0;
+var anterior = 0;
+var pcw = 30;
+
+var ctx = canvas.getContext("2d");
+
+function desenhachao(){
+ctx.fillStyle = "tan";
+ctx.fillRect(0,0,lg,alt );
+}
+
+function desenhaPC(x,y){
+ctx.fillStyle = "lightblue";
+ctx.fillRect(x, y, pcw, pcw);
+
+ctx.strokeStyle = "black";
+ctx.strokeRect (x,y, pcw, pcw);
+}
+var pcx = 10;
+function passo(t){
+    dt = (t - anterior)/1000;
+    desenhachao();
+    ctx.fillStyle = "black";
+    ctx.fillText(t, 10, 10);
+    ctx.fillText(dt, 10, 20);
+    pcx=pcx + 10*dt;
+    desenhaPC(pcx,100);
+    anterior = t;
+   if(pcx < lg - pcw)
+    requestAnimationFrame(passo);
+}
+
+// Programa Principal
+requestAnimationFrame(passo);
+
+</script>
 </html>
